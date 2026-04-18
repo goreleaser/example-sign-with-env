@@ -51,10 +51,12 @@ changelog:
 signs:
   - cmd: cosign
     artifacts: checksum
-    stdin: ""
+    stdin: "{{ .Env.COSIGN_PASSWORD }}"
     args:
       - sign-blob
       - "--key=env://COSIGN_KEY"
-      - "--yes"
-      - "--output-signature=${signature}"
+      - "--bundle=${signature}"
       - "${artifact}"
+      - "--yes"
+    signature: "${artifact}.bundle"
+    output: true
